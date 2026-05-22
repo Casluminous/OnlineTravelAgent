@@ -71,7 +71,11 @@ fun MainScreen(viewModel: TravelViewModel = viewModel()) {
             }
         }
     ) { innerPadding ->
-        Box(modifier = Modifier.padding(innerPadding)) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = innerPadding.calculateTopPadding())
+        ) {
             if (selectedDestination != null) {
                 DestinationDetailScreen(
                     destination = selectedDestination!!,
@@ -79,11 +83,13 @@ fun MainScreen(viewModel: TravelViewModel = viewModel()) {
                     onFavoriteClick = { viewModel.toggleFavorite(selectedDestination!!.name) }
                 )
             } else {
-                when (selectedItem) {
-                    0 -> DashboardScreen(viewModel, onDestinationClick = { viewModel.selectDestination(it) })
-                    1 -> MyTripsScreen()
-                    2 -> FavoritesScreen(viewModel, onDestinationClick = { viewModel.selectDestination(it) })
-                    3 -> ProfileScreen()
+                Box(modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding())) {
+                    when (selectedItem) {
+                        0 -> DashboardScreen(viewModel, onDestinationClick = { viewModel.selectDestination(it) })
+                        1 -> MyTripsScreen()
+                        2 -> FavoritesScreen(viewModel, onDestinationClick = { viewModel.selectDestination(it) })
+                        3 -> ProfileScreen()
+                    }
                 }
             }
         }

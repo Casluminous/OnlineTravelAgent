@@ -43,7 +43,7 @@ fun DestinationDetailScreen(destination: Destination, onBackClick: () -> Unit, o
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(24.dp)
+                        .padding(horizontal = 24.dp, vertical = 16.dp)
                         .navigationBarsPadding(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
