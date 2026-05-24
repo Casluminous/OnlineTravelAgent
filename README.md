@@ -1,17 +1,44 @@
-# online_travel_agent
+# Online Travel Agent
 
-A new Flutter project.
+Ứng dụng Flutter đã được nối với backend `Express.js + TypeScript` để các chức năng dữ liệu chạy thật:
+- tải danh sách điểm đến/recommended
+- thêm/bỏ yêu thích
+- đặt chuyến đi (thêm vào tab `Chuyến đi`)
+- xem/sửa profile
+- xem/thêm giấy tờ
 
-## Getting Started
+## 1) Chạy backend
 
-This project is a starting point for a Flutter application.
+```bash
+cd backend
+npm install
+npm run dev
+```
 
-A few resources to get you started if this is your first Flutter project:
+Backend chạy mặc định tại `http://localhost:3000`.
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+## 2) Chạy Flutter
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```bash
+flutter pub get
+flutter run
+```
+
+Mặc định app gọi API như sau:
+- Android emulator: `http://10.0.2.2:3000`
+- Nền tảng khác: `http://localhost:3000`
+
+Bạn có thể override bằng `dart-define`:
+
+```bash
+flutter run --dart-define=API_BASE_URL=http://<your-ip>:3000
+```
+
+## 3) Kiểm tra nhanh API
+
+- `GET /health`
+- `GET /api/bootstrap`
+- `PATCH /api/destinations/:id/favorite`
+- `POST /api/trips/book`
+- `PUT /api/profile`
+- `POST /api/documents`

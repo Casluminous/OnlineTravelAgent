@@ -31,7 +31,8 @@ class FavoritesScreen extends StatelessWidget {
               favorites.isEmpty
                   ? const Expanded(
                       child: Center(
-                        child: Text("Chưa có địa điểm yêu thích nào", style: TextStyle(color: Colors.grey)),
+                        child: Text("Chưa có địa điểm yêu thích nào",
+                            style: TextStyle(color: Colors.grey)),
                       ),
                     )
                   : Expanded(
@@ -42,7 +43,8 @@ class FavoritesScreen extends StatelessWidget {
                         itemBuilder: (context, index) {
                           return FavoriteDestinationCard(
                             destination: favorites[index],
-                            onFavoriteClick: () => travelProvider.toggleFavorite(favorites[index].name),
+                            onFavoriteClick: () => travelProvider
+                                .toggleFavorite(favorites[index].id),
                             onClick: () => onDestinationClick(favorites[index]),
                           );
                         },

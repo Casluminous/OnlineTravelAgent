@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../models/trip.dart';
+import '../../../models/document_item.dart';
 
 class DocumentCard extends StatelessWidget {
   final DocumentItem doc;
@@ -31,8 +31,11 @@ class DocumentCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(doc.title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                Text(doc.description, style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                Text(doc.title,
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold)),
+                Text(doc.description,
+                    style: const TextStyle(fontSize: 12, color: Colors.grey)),
               ],
             ),
           ),

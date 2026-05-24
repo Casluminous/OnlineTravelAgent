@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../models/trip.dart';
+
 import '../../../core/theme/app_theme.dart';
+import '../../../models/trip.dart';
 
 class TripCard extends StatelessWidget {
   final Trip trip;
@@ -9,6 +10,8 @@ class TripCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cacheWidth = (140 * MediaQuery.devicePixelRatioOf(context)).round();
+
     return Container(
       height: 140,
       decoration: BoxDecoration(
@@ -32,7 +35,8 @@ class TripCard extends StatelessWidget {
                 width: 140,
                 height: double.infinity,
                 fit: BoxFit.cover,
-                cacheWidth: 300, // Tối ưu: Giới hạn chiều rộng ảnh khi decode
+                cacheWidth: cacheWidth,
+                filterQuality: FilterQuality.low,
               ),
             ),
           ),
@@ -45,17 +49,22 @@ class TripCard extends StatelessWidget {
                 children: [
                   Text(
                     trip.destination,
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                     overflow: TextOverflow.ellipsis,
                   ),
                   Row(
                     children: [
-                      const Icon(Icons.calendar_today, size: 14, color: Colors.grey),
+                      const Icon(Icons.calendar_today,
+                          size: 14, color: Colors.grey),
                       const SizedBox(width: 4),
                       Expanded(
                         child: Text(
                           trip.date,
-                          style: const TextStyle(fontSize: 12, color: Colors.grey),
+                          style:
+                              const TextStyle(fontSize: 12, color: Colors.grey),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
@@ -64,17 +73,30 @@ class TripCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Row(
+                      Row(
                         children: [
-                          Icon(Icons.location_on, size: 14, color: AppTheme.primaryBlue),
-                          SizedBox(width: 4),
-                          Text("Vietnam", style: TextStyle(fontSize: 12, color: AppTheme.primaryBlue)),
+                          const Icon(
+                            Icons.location_on,
+                            size: 14,
+                            color: AppTheme.primaryBlue,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            trip.location,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: AppTheme.primaryBlue,
+                            ),
+                          ),
                         ],
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
-                          color: trip.isUpcoming ? const Color(0xFFE3F2FD) : const Color(0xFFF5F5F5),
+                          color: trip.isUpcoming
+                              ? const Color(0xFFE3F2FD)
+                              : const Color(0xFFF5F5F5),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
@@ -82,7 +104,9 @@ class TripCard extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.bold,
-                            color: trip.isUpcoming ? AppTheme.primaryBlue : Colors.grey,
+                            color: trip.isUpcoming
+                                ? AppTheme.primaryBlue
+                                : Colors.grey,
                           ),
                         ),
                       ),

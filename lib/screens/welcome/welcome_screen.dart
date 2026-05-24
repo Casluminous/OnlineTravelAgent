@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../core/theme/app_theme.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -17,6 +18,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   ];
   int currentImageIndex = 0;
   Timer? timer;
+  bool _didPrecache = false;
 
   @override
   void initState() {
@@ -37,7 +39,23 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_didPrecache) {
+      return;
+    }
+    for (final image in images) {
+      precacheImage(AssetImage(image), context);
+    }
+    _didPrecache = true;
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final cacheWidth = (MediaQuery.sizeOf(context).width *
+            MediaQuery.devicePixelRatioOf(context))
+        .round();
+
     return Scaffold(
       backgroundColor: Colors.black, // Dark background while loading images
       body: Stack(
@@ -45,19 +63,21 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           // 1. Background Image Layer
           Positioned.fill(
             child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 1000),
-                child: Image.asset(
-                  images[currentImageIndex],
-                  key: ValueKey<int>(currentImageIndex),
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  height: double.infinity,
-                  errorBuilder: (context, error, stackTrace) {
-                    debugPrint("Error loading image: $error");
-                    return Container(color: Colors.blueGrey);
-                  },
-                ),
+              duration: const Duration(milliseconds: 1000),
+              child: Image.asset(
+                images[currentImageIndex],
+                key: ValueKey<int>(currentImageIndex),
+                fit: BoxFit.cover,
+                width: double.infinity,
+                height: double.infinity,
+                cacheWidth: cacheWidth,
+                filterQuality: FilterQuality.low,
+                errorBuilder: (context, error, stackTrace) {
+                  debugPrint("Error loading image: $error");
+                  return Container(color: Colors.blueGrey);
+                },
               ),
+            ),
           ),
 
           // 2. Gradient Overlay Layer
@@ -85,12 +105,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 48),
-                  const Center(
+                  Center(
                     child: Text(
                       "Vietnam",
-                      style: TextStyle(
-                        fontSize: 80,
-                        fontWeight: FontWeight.bold,
+                      style: GoogleFonts.dancingScript(
+                        fontSize: 88,
+                        fontWeight: FontWeight.w700,
                         color: Colors.white,
                       ),
                     ),

@@ -16,6 +16,8 @@ class PopularDestinationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cacheWidth = (188 * MediaQuery.devicePixelRatioOf(context)).round();
+
     return GestureDetector(
       onTap: onClick,
       child: Container(
@@ -27,17 +29,22 @@ class PopularDestinationCard extends StatelessWidget {
         child: Stack(
           children: [
             Image.asset(
-                destination.imagePath,
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: double.infinity,
-              ),
+              destination.imagePath,
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: double.infinity,
+              cacheWidth: cacheWidth,
+              filterQuality: FilterQuality.low,
+            ),
             Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Colors.transparent, Colors.black.withValues(alpha: 0.4)],
+                  colors: [
+                    Colors.transparent,
+                    Colors.black.withValues(alpha: 0.4)
+                  ],
                   stops: const [0.6, 1.0],
                 ),
               ),
@@ -55,7 +62,9 @@ class PopularDestinationCard extends StatelessWidget {
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
-                    destination.isFavorite ? Icons.favorite : Icons.favorite_border,
+                    destination.isFavorite
+                        ? Icons.favorite
+                        : Icons.favorite_border,
                     size: 16,
                     color: destination.isFavorite ? Colors.red : Colors.grey,
                   ),
@@ -69,19 +78,24 @@ class PopularDestinationCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
                       color: AppTheme.darkGray.withValues(alpha: 0.8),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
                       destination.name,
-                      style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500),
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500),
                     ),
                   ),
                   const SizedBox(height: 4),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
                       color: AppTheme.darkGray.withValues(alpha: 0.8),
                       borderRadius: BorderRadius.circular(12),
@@ -92,7 +106,10 @@ class PopularDestinationCard extends StatelessWidget {
                         const SizedBox(width: 4),
                         Text(
                           destination.rating,
-                          style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),

@@ -1,19 +1,146 @@
 import 'package:flutter/material.dart';
-import '../../models/trip.dart';
+import 'package:provider/provider.dart';
+
 import '../../core/theme/app_theme.dart';
+import '../../providers/travel_provider.dart';
 import 'widgets/document_card.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
+  Future<void> _showEditProfileDialog(BuildContext context) async {
+    final provider = context.read<TravelProvider>();
+    final nameController = TextEditingController(text: provider.profile.name);
+    final emailController = TextEditingController(text: provider.profile.email);
+
+    final shouldSave = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          title: const Text("Chỉnh sửa hồ sơ"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: nameController,
+                decoration: const InputDecoration(labelText: "Họ tên"),
+              ),
+              TextField(
+                controller: emailController,
+                decoration: const InputDecoration(labelText: "Email"),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext, false),
+              child: const Text("Hủy"),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(dialogContext, true),
+              child: const Text("Lưu"),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (shouldSave != true) {
+      return;
+    }
+
+    final ok = await provider.updateProfile(
+      name: nameController.text.trim(),
+      email: emailController.text.trim(),
+    );
+
+    if (!context.mounted) {
+      return;
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content:
+            Text(ok ? "Cập nhật hồ sơ thành công" : "Cập nhật hồ sơ thất bại"),
+        backgroundColor: ok ? Colors.green : Colors.red,
+      ),
+    );
+  }
+
+  Future<void> _showAddDocumentDialog(BuildContext context) async {
+    final provider = context.read<TravelProvider>();
+    final titleController = TextEditingController();
+    final descriptionController = TextEditingController();
+
+    final shouldSave = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          title: const Text("Thêm giấy tờ"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: titleController,
+                decoration: const InputDecoration(labelText: "Tiêu đề"),
+              ),
+              TextField(
+                controller: descriptionController,
+                decoration: const InputDecoration(labelText: "Mô tả"),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext, false),
+              child: const Text("Hủy"),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(dialogContext, true),
+              child: const Text("Thêm"),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (shouldSave != true) {
+      return;
+    }
+
+    final title = titleController.text.trim();
+    final description = descriptionController.text.trim();
+    if (title.isEmpty || description.isEmpty) {
+      if (!context.mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Vui lòng nhập đầy đủ thông tin"),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    final ok =
+        await provider.addDocument(title: title, description: description);
+    if (!context.mounted) {
+      return;
+    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(ok ? "Đã thêm giấy tờ" : "Thêm giấy tờ thất bại"),
+        backgroundColor: ok ? Colors.green : Colors.red,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final List<DocumentItem> documents = [
-      DocumentItem(title: "Hộ chiếu", description: "Hết hạn: 12/2030", icon: Icons.description, color: const Color(0xFF176FF2)),
-      DocumentItem(title: "Visa", description: "Vietnam - Multiple Entry", icon: Icons.assignment, color: const Color(0xFF4CAF50)),
-      DocumentItem(title: "Bảo hiểm du lịch", description: "Bảo việt - Toàn cầu", icon: Icons.verified_user, color: const Color(0xFFFF9800)),
-      DocumentItem(title: "Vé máy bay", description: "Phú Quốc - Sài Gòn", icon: Icons.flight_takeoff, color: const Color(0xFFE91E63)),
-    ];
+    final provider = context.watch<TravelProvider>();
+    final profile = provider.profile;
+    final documents = provider.documents;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -29,7 +156,6 @@ class ProfileScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 24),
-              // Profile Card
               Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
@@ -52,50 +178,72 @@ class ProfileScreen extends StatelessWidget {
                         color: AppTheme.primaryBlue,
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(Icons.person, color: Colors.white, size: 32),
+                      child: const Icon(Icons.person,
+                          color: Colors.white, size: 32),
                     ),
                     const SizedBox(width: 16),
-                    const Expanded(
+                    Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Nguyễn Văn A", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                          Text("vanya.traveler@email.com", style: TextStyle(fontSize: 14, color: Colors.grey)),
+                          Text(
+                            profile.name,
+                            style: const TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            profile.email,
+                            style: const TextStyle(
+                                fontSize: 14, color: Colors.grey),
+                          ),
                         ],
                       ),
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () => _showEditProfileDialog(context),
                       icon: const Icon(Icons.edit, color: AppTheme.primaryBlue),
                     ),
                   ],
                 ),
               ),
               const SizedBox(height: 32),
-              // Documents Section
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     "Hồ sơ & Giấy tờ",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  Text(
-                    "Thêm mới",
-                    style: TextStyle(color: AppTheme.primaryBlue, fontWeight: FontWeight.w500, fontSize: 14),
+                  TextButton(
+                    onPressed: () => _showAddDocumentDialog(context),
+                    child: const Text(
+                      "Thêm mới",
+                      style: TextStyle(
+                        color: AppTheme.primaryBlue,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                      ),
+                    ),
                   ),
                 ],
               ),
               const SizedBox(height: 16),
               Expanded(
-                child: ListView.separated(
-                  itemCount: documents.length,
-                  separatorBuilder: (_, __) => const SizedBox(height: 16),
-                  padding: const EdgeInsets.only(bottom: 24),
-                  itemBuilder: (context, index) {
-                    return DocumentCard(doc: documents[index]);
-                  },
-                ),
+                child: documents.isEmpty
+                    ? const Center(
+                        child: Text(
+                          "Chưa có giấy tờ nào",
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      )
+                    : ListView.separated(
+                        itemCount: documents.length,
+                        separatorBuilder: (_, __) => const SizedBox(height: 16),
+                        padding: const EdgeInsets.only(bottom: 24),
+                        itemBuilder: (context, index) {
+                          return DocumentCard(doc: documents[index]);
+                        },
+                      ),
               ),
             ],
           ),

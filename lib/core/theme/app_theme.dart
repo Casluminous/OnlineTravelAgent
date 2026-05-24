@@ -9,7 +9,8 @@ class AppTheme {
 
   // Sử dụng font hệ thống mặc định để tránh lỗi nạp font gây treo app
   static final TextTheme _textTheme = const TextTheme().copyWith(
-    displayLarge: const TextStyle(fontWeight: FontWeight.bold, color: textBlack),
+    displayLarge:
+        const TextStyle(fontWeight: FontWeight.bold, color: textBlack),
     titleLarge: const TextStyle(fontWeight: FontWeight.bold, color: textBlack),
     bodyLarge: const TextStyle(color: textBlack),
     bodyMedium: const TextStyle(color: textBlack),

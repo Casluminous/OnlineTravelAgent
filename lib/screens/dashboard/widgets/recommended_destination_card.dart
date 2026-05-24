@@ -14,6 +14,8 @@ class RecommendedDestinationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cacheWidth = (166 * MediaQuery.devicePixelRatioOf(context)).round();
+
     return GestureDetector(
       onTap: onClick,
       child: Container(
@@ -40,17 +42,20 @@ class RecommendedDestinationCard extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(12),
                     child: Image.asset(
-                        destination.imagePath,
-                        height: 96,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                      ),
+                      destination.imagePath,
+                      height: 96,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                      cacheWidth: cacheWidth,
+                      filterQuality: FilterQuality.low,
+                    ),
                   ),
                   Positioned(
                     bottom: -8,
                     right: 8,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 2),
                       decoration: BoxDecoration(
                         color: AppTheme.darkGray,
                         shape: BoxShape.rectangle,
@@ -59,7 +64,10 @@ class RecommendedDestinationCard extends StatelessWidget {
                       ),
                       child: Text(
                         destination.duration,
-                        style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
@@ -71,7 +79,10 @@ class RecommendedDestinationCard extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: Text(
                 destination.name,
-                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: AppTheme.textBlack),
+                style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: AppTheme.textBlack),
               ),
             ),
             const SizedBox(height: 4),

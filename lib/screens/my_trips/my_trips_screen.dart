@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../models/trip.dart';
+import 'package:provider/provider.dart';
+
 import '../../core/theme/app_theme.dart';
+import '../../models/trip.dart';
+import '../../providers/travel_provider.dart';
 import 'widgets/trip_card.dart';
 
 class MyTripsScreen extends StatefulWidget {
@@ -10,32 +13,9 @@ class MyTripsScreen extends StatefulWidget {
   State<MyTripsScreen> createState() => _MyTripsScreenState();
 }
 
-class _MyTripsScreenState extends State<MyTripsScreen> with SingleTickerProviderStateMixin {
+class _MyTripsScreenState extends State<MyTripsScreen>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
-
-  final List<Trip> trips = [
-    Trip(
-      destination: "Đảo Phú Quốc",
-      date: "20/05/2026 - 23/05/2026",
-      status: "Sắp tới",
-      imagePath: "assets/images/phuquoc_image.jpg",
-      isUpcoming: true,
-    ),
-    Trip(
-      destination: "Hội An",
-      date: "15/04/2026 - 17/04/2026",
-      status: "Đã đi",
-      imagePath: "assets/images/hoian_image.webp",
-      isUpcoming: false,
-    ),
-    Trip(
-      destination: "Đà Lạt",
-      date: "10/03/2026 - 14/03/2026",
-      status: "Đã đi",
-      imagePath: "assets/images/dalat_image.jpg",
-      isUpcoming: false,
-    ),
-  ];
 
   @override
   void initState() {
@@ -51,6 +31,10 @@ class _MyTripsScreenState extends State<MyTripsScreen> with SingleTickerProvider
 
   @override
   Widget build(BuildContext context) {
+    final provider = context.watch<TravelProvider>();
+    final upcoming = provider.upcomingTrips;
+    final history = provider.historyTrips;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -71,7 +55,8 @@ class _MyTripsScreenState extends State<MyTripsScreen> with SingleTickerProvider
                 labelColor: AppTheme.primaryBlue,
                 unselectedLabelColor: Colors.grey,
                 labelStyle: const TextStyle(fontWeight: FontWeight.bold),
-                unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w500),
+                unselectedLabelStyle:
+                    const TextStyle(fontWeight: FontWeight.w500),
                 indicatorSize: TabBarIndicatorSize.tab,
                 dividerColor: Colors.transparent,
                 tabs: const [
@@ -84,8 +69,8 @@ class _MyTripsScreenState extends State<MyTripsScreen> with SingleTickerProvider
                 child: TabBarView(
                   controller: _tabController,
                   children: [
-                    _tripList(trips.where((t) => t.isUpcoming).toList()),
-                    _tripList(trips.where((t) => !t.isUpcoming).toList()),
+                    _tripList(upcoming),
+                    _tripList(history),
                   ],
                 ),
               ),
@@ -97,6 +82,15 @@ class _MyTripsScreenState extends State<MyTripsScreen> with SingleTickerProvider
   }
 
   Widget _tripList(List<Trip> filteredTrips) {
+    if (filteredTrips.isEmpty) {
+      return const Center(
+        child: Text(
+          "Chưa có chuyến đi nào",
+          style: TextStyle(color: Colors.grey),
+        ),
+      );
+    }
+
     return ListView.separated(
       itemCount: filteredTrips.length,
       separatorBuilder: (_, __) => const SizedBox(height: 16),

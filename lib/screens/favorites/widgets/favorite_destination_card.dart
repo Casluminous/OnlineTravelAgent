@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../models/destination.dart';
+
 import '../../../core/theme/app_theme.dart';
+import '../../../models/destination.dart';
 
 class FavoriteDestinationCard extends StatelessWidget {
   final Destination destination;
@@ -16,6 +17,8 @@ class FavoriteDestinationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cacheWidth = (140 * MediaQuery.devicePixelRatioOf(context)).round();
+
     return GestureDetector(
       onTap: onClick,
       child: Container(
@@ -41,7 +44,8 @@ class FavoriteDestinationCard extends StatelessWidget {
                   width: 140,
                   height: double.infinity,
                   fit: BoxFit.cover,
-                  cacheWidth: 300, // Tối ưu: Giới hạn chiều rộng ảnh khi decode
+                  cacheWidth: cacheWidth,
+                  filterQuality: FilterQuality.low,
                 ),
               ),
             ),
@@ -61,18 +65,28 @@ class FavoriteDestinationCard extends StatelessWidget {
                             children: [
                               Text(
                                 destination.name,
-                                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
                                 overflow: TextOverflow.ellipsis,
                               ),
                               const SizedBox(height: 4),
                               Row(
                                 children: [
-                                  const Icon(Icons.location_on, size: 14, color: AppTheme.primaryBlue),
+                                  const Icon(
+                                    Icons.location_on,
+                                    size: 14,
+                                    color: AppTheme.primaryBlue,
+                                  ),
                                   const SizedBox(width: 4),
                                   Expanded(
                                     child: Text(
                                       destination.location,
-                                      style: const TextStyle(fontSize: 12, color: Colors.grey),
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey,
+                                      ),
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
@@ -96,7 +110,11 @@ class FavoriteDestinationCard extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            child: const Icon(Icons.favorite, size: 16, color: Colors.red),
+                            child: const Icon(
+                              Icons.favorite,
+                              size: 16,
+                              color: Colors.red,
+                            ),
                           ),
                         ),
                       ],
@@ -106,17 +124,25 @@ class FavoriteDestinationCard extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            const Icon(Icons.star, size: 16, color: Colors.amber),
+                            const Icon(Icons.star,
+                                size: 16, color: Colors.amber),
                             const SizedBox(width: 4),
                             Text(
                               destination.rating,
-                              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ],
                         ),
                         Text(
                           destination.duration,
-                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: AppTheme.primaryBlue),
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: AppTheme.primaryBlue,
+                          ),
                         ),
                       ],
                     ),
