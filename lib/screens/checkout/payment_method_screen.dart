@@ -68,6 +68,12 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
         type: 'applepay',
         logo: _buildApplePayLogo(),
       ),
+      PaymentMethod(
+        id: 'cash',
+        name: 'Tiền mặt (Thanh toán khi khởi hành)',
+        type: 'cash',
+        logo: _buildCashLogo(),
+      ),
     ];
   }
 
@@ -178,6 +184,24 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildCashLogo() {
+    return Container(
+      width: 44,
+      height: 28,
+      decoration: BoxDecoration(
+        color: const Color(0xFFE8F5E9),
+        borderRadius: BorderRadius.circular(4),
+        border: Border.all(color: const Color(0xFFC8E6C9)),
+      ),
+      alignment: Alignment.center,
+      child: const Icon(
+        Icons.payments_rounded,
+        color: Color(0xFF4CAF50),
+        size: 16,
       ),
     );
   }
@@ -480,9 +504,11 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  const Text(
-                    'Thanh toán thành công!',
-                    style: TextStyle(
+                  Text(
+                    _selectedMethodId == 'cash'
+                        ? 'Đặt tour thành công!'
+                        : 'Thanh toán thành công!',
+                    style: const TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
                       color: AppTheme.textBlack,
@@ -490,9 +516,11 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 12),
-                  const Text(
-                    'Yêu cầu dịch vụ của bạn đã được xác nhận thành công. Bạn có thể kiểm tra chi tiết trong mục Chuyến đi.',
-                    style: TextStyle(
+                  Text(
+                    _selectedMethodId == 'cash'
+                        ? 'Yêu cầu đặt tour của bạn đã được ghi nhận. Quý khách vui lòng chuẩn bị thanh toán bằng tiền mặt khi khởi hành chuyến đi.'
+                        : 'Yêu cầu dịch vụ của bạn đã được xác nhận thành công. Bạn có thể kiểm tra chi tiết trong mục Chuyến đi.',
+                    style: const TextStyle(
                       color: Colors.grey,
                       fontSize: 14,
                       height: 1.4,

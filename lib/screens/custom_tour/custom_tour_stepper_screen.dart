@@ -1169,6 +1169,11 @@ class _CustomTourStepperScreenState extends State<CustomTourStepperScreen> {
         'name': 'Apple Pay',
         'logo': _buildApplePayLogoMini(),
       },
+      {
+        'id': 'cash',
+        'name': 'Thanh toán tiền mặt',
+        'logo': _buildCashLogoMini(),
+      },
     ];
 
     return Column(
@@ -1333,6 +1338,24 @@ class _CustomTourStepperScreenState extends State<CustomTourStepperScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildCashLogoMini() {
+    return Container(
+      width: 32,
+      height: 20,
+      decoration: BoxDecoration(
+        color: const Color(0xFFE8F5E9),
+        borderRadius: BorderRadius.circular(3),
+        border: Border.all(color: const Color(0xFFC8E6C9)),
+      ),
+      alignment: Alignment.center,
+      child: const Icon(
+        Icons.payments_rounded,
+        color: Color(0xFF4CAF50),
+        size: 12,
       ),
     );
   }
