@@ -355,25 +355,16 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
 
               // 2. Main Content Body
               SliverToBoxAdapter(
-                child: Column(
-                  children: [
-                    // A. Overlapping Overview Info Card
-                    Transform.translate(
-                      offset: const Offset(0, -20),
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 20),
-                        padding: const EdgeInsets.all(18),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(24),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.06),
-                              blurRadius: 15,
-                              offset: const Offset(0, 8),
-                            ),
-                          ],
-                        ),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+                  ),
+                  child: Column(
+                    children: [
+                      // A. Overview Info Row
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
@@ -397,13 +388,17 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                           ],
                         ),
                       ),
-                    ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Divider(height: 1, color: AppTheme.backgroundGray),
+                      ),
+                      const SizedBox(height: 20),
 
-                    // Content Container inside body
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      // Content Container inside body
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           // B. Selection Section: Dates & Guests
                           const Text(
@@ -931,6 +926,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                   ],
                 ),
               ),
+            ),
             ],
           ),
 
