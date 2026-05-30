@@ -48,69 +48,14 @@ class _MyTripsScreenState extends State<MyTripsScreen>
                 children: [
                   const SizedBox(height: 24),
                   
-                  // A. Custom Personalized Header
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Chuyến đi của tôi",
-                              style: TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold,
-                                color: AppTheme.textBlack,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              provider.profile.name.isNotEmpty
-                                  ? "Chào mừng trở lại, ${provider.profile.name}!"
-                                  : "Khám phá những chân trời mới",
-                              style: const TextStyle(
-                                fontSize: 13,
-                                color: AppTheme.darkGray,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      // Rounded Profile Avatar
-                      Container(
-                        width: 46,
-                        height: 46,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient: const LinearGradient(
-                            colors: [Color(0xFF176FF2), Color(0xFF196EEE)],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppTheme.primaryBlue.withValues(alpha: 0.2),
-                              blurRadius: 8,
-                              spreadRadius: 2,
-                            ),
-                          ],
-                        ),
-                        child: Center(
-                          child: Text(
-                            provider.profile.name.isNotEmpty
-                                ? provider.profile.name.substring(0, 1).toUpperCase()
-                                : 'U',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                  // A. Custom Header
+                  const Text(
+                    "Chuyến đi của tôi",
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: AppTheme.textBlack,
+                    ),
                   ),
                   const SizedBox(height: 20),
 
