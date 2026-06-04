@@ -16,6 +16,9 @@ app.get("/health", (_, res) => {
 app.get("/api/bootstrap", async (_, res) => {
   const data = await store.getBootstrap();
   res.json(data);
+  console.log("=============================================");
+  console.log("✅ [BACKEND] Đã gửi dữ liệu từ Database cho ứng dụng Flutter thành công!");
+  console.log("=============================================");
 });
 
 app.get("/api/favorites", async (_, res) => {
@@ -212,8 +215,8 @@ app.post("/api/trips/custom-tour", async (req, res) => {
   }
 });
 
-const server = app.listen(port, () => {
-  console.log(`Backend running at http://localhost:${port}`);
+const server = app.listen(port, "0.0.0.0", () => {
+  console.log(`Backend running at http://0.0.0.0:${port}`);
 });
 
 // Graceful shutdown
