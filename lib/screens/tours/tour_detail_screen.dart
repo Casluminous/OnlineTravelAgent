@@ -594,7 +594,8 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                                   ),
                                   Switch.adaptive(
                                     value: _guideToggle,
-                                    activeColor: AppTheme.primaryBlue,
+                                    activeTrackColor: AppTheme.primaryBlue.withValues(alpha: 0.5),
+                                    activeThumbColor: AppTheme.primaryBlue,
                                     onChanged: (val) {
                                       setState(() {
                                         _guideToggle = val;

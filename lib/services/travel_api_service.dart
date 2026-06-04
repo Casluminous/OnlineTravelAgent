@@ -99,7 +99,7 @@ class TravelApiService {
       'destinationId': destinationId,
       'date': date,
       'guests': guests,
-      if (totalPrice != null) 'totalPrice': totalPrice,
+      'totalPrice': ?totalPrice,
     });
     return Trip.fromJson(data);
   }
@@ -148,7 +148,7 @@ class TravelApiService {
   Future<Trip> bookTour({required String tourId, required String date, required String guests, double? totalPrice}) async {
     final data = await _postJson('/api/tours/book', {
       'tourId': tourId, 'date': date, 'guests': guests,
-      if (totalPrice != null) 'totalPrice': totalPrice,
+      'totalPrice': ?totalPrice,
     });
     return Trip.fromJson(data);
   }
@@ -161,10 +161,10 @@ class TravelApiService {
     final data = await _postJson('/api/trips/custom-tour', {
       'destination': destination, 'location': location, 'date': date,
       'guests': guests, 'imagePath': imagePath,
-      if (flightIds != null) 'flightIds': flightIds,
-      if (hotelIds != null) 'hotelIds': hotelIds,
-      if (roomId != null) 'roomId': roomId,
-      if (totalPrice != null) 'totalPrice': totalPrice,
+      'flightIds': ?flightIds,
+      'hotelIds': ?hotelIds,
+      'roomId': ?roomId,
+      'totalPrice': ?totalPrice,
     });
     return Trip.fromJson(data);
   }
