@@ -24,6 +24,9 @@ app.get("/health", (_, res) => {
 app.get("/api/bootstrap", async (_, res) => {
   const data = await store.getBootstrap();
   res.json(data);
+  console.log("=============================================");
+  console.log("✅ [BACKEND] Đã gửi dữ liệu từ Database cho ứng dụng Flutter thành công!");
+  console.log("=============================================");
 });
 
 app.get("/api/favorites", async (_, res) => {

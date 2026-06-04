@@ -236,7 +236,9 @@ class TravelProvider with ChangeNotifier {
     } catch (e) {
       _errorMessage = 'Không kết nối được backend. Đang dùng dữ liệu local.';
       _loadFallbackData();
-      debugPrint('initialize error: $e');
+      debugPrint('=============================================');
+      debugPrint('❌ [FLUTTER] Lỗi kết nối Backend. Ứng dụng tự động chuyển sang dùng dữ liệu Fallback (mẫu)!');
+      debugPrint('=============================================');
     } finally {
       _isBusy = false;
       _isLoading = false;
