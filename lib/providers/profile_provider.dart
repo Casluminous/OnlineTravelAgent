@@ -20,6 +20,10 @@ class ProfileNotifier extends Notifier<UserProfile> {
       return false;
     }
   }
+
+  void updateFromAuth({required String name, required String email}) {
+    state = UserProfile(name: name, email: email);
+  }
 }
 
 final profileProvider = NotifierProvider<ProfileNotifier, UserProfile>(ProfileNotifier.new);

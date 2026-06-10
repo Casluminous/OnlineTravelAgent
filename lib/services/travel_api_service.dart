@@ -169,6 +169,16 @@ class TravelApiService {
     return Trip.fromJson(data);
   }
 
+  // ── Auth ──────────────────────────────────────────────────────────────
+
+  Future<Map<String, dynamic>> login({required String email, required String password}) async {
+    return await _postJson('/api/auth/login', {'email': email, 'password': password});
+  }
+
+  Future<Map<String, dynamic>> register({required String name, required String email, required String password}) async {
+    return await _postJson('/api/auth/register', {'name': name, 'email': email, 'password': password});
+  }
+
   Future<Map<String, dynamic>> _putJson(String path, Map<String, dynamic> body) async {
     final response = await http.put(
       _uri(path),
